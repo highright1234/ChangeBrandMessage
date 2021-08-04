@@ -1,0 +1,3 @@
+name: ChangeBrandMessage
+version: @version@
+main: com.gthub.highright1234.changebrandmessage.ChangeBrandMessage
