@@ -22,6 +22,10 @@ public final class ChangeBrandMessage extends Plugin implements Listener {
 
     private String brand;
 
+    public String getBrand() {
+        return brand;
+    }
+
     @Override
     public void onEnable() {
         if (getConfig() == null) return;
