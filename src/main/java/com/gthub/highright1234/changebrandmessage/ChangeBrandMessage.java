@@ -40,18 +40,17 @@ public final class ChangeBrandMessage extends Plugin implements Listener {
 
     @EventHandler
     public void on(PluginMessageEvent e) {
-        if (!(e.getReceiver() instanceof ProxiedPlayer || e.getSender() instanceof ProxiedPlayer)) {
-            return;
-        }
-        ProxiedPlayer player = e.getReceiver() != null ? (ProxiedPlayer) e.getReceiver() : (ProxiedPlayer) e.getSender();
-        String channel = player.getPendingConnection().getVersion() >=
-                ProtocolConstants.MINECRAFT_1_13 ? "minecraft:brand" : "MC|Brand";
-        if (e.getTag().equalsIgnoreCase(channel)) {
-            ByteBuf brand = ByteBufAllocator.DEFAULT.heapBuffer();
-            DefinedPacket.writeString( this.brand, brand );
-            player.sendData(channel, DefinedPacket.toArray(brand));
-            brand.release();
-            e.setCancelled(true);
+        if (e.getReceiver() instanceof ProxiedPlayer) {
+            ProxiedPlayer player = (ProxiedPlayer) e.getReceiver();
+            String channel = player.getPendingConnection().getVersion() >=
+                    ProtocolConstants.MINECRAFT_1_13 ? "minecraft:brand" : "MC|Brand";
+            if (e.getTag().equalsIgnoreCase(channel)) {
+                ByteBuf brand = ByteBufAllocator.DEFAULT.heapBuffer();
+                DefinedPacket.writeString(this.brand, brand);
+                player.sendData(channel, DefinedPacket.toArray(brand));
+                brand.release();
+                e.setCancelled(true);
+            }
         }
     }
 
